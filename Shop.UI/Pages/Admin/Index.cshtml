@@ -1,0 +1,36 @@
+﻿@page
+@model Shop.UI.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin page";
+}
+
+    <div id="app">
+        @*<input type="number" @@change="alert('hello')" v-model="price" />
+        <button v-on:click="togglePrice">Toggle</button>
+        <p v-show="isPriceAvailable">
+            {{price}}
+        </p>
+        <p v-if="isPriceAvailable">
+            {{formatPrice}}
+        </p>*@
+        <button v-on:click="getProducts">Get Products</button>
+        <div>
+            <p v-for="product in products">
+                {{product.name}} -- {{product.description}} -- {{product.value}}
+            </p>
+        </div>
+        
+        <div>
+            <input  v-model="productModel.name" />
+            <input  v-model="productModel.description" />
+            <input type="number" v-model.number="productModel.value" />
+            <button v-on:click="createProducts">Create Products</button>
+        </div>
+    </div>
+
+@section scripts{
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/admin/main.js"></script>
+}
