@@ -15,20 +15,31 @@ namespace Shop.Application.ProductsAdmin
         {
             _context = context;
         }
-        public async Task<ProductModelResponse> Do(ProductModelRequest request)
+        public async Task<Response> Do(Request request)
         {
+            var product = _context.Products.FirstOrDefault(x => x.Id.Equals(request.Id));
+            product.Name = request.Name;
+            product.Description = request.Description;
+            product.Value = request.Value;
             await _context.SaveChangesAsync();
-            return new ProductModelResponse();
+            return new Response 
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Value = product.Value
+            };
         }
-        public class ProductModelRequest
+        public class Request
         {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal Value { get; set; }
 
         }
 
-        public class ProductModelResponse
+        public class Response
         {
             public int Id { get; set; }
             public string Name { get; set; }

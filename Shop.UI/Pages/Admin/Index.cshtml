@@ -12,19 +12,22 @@
         </p>
         <p v-if="isPriceAvailable">
             {{formatPrice}}
-        </p>*@
-        <button v-on:click="getProducts">Get Products</button>
+        </p>
+        <button v-on:click="getProducts">Get Products</button>*@
         <div>
-            <p v-for="product in products">
-                {{product.name}} -- {{product.description}} -- {{product.value}}
+            <p v-for="(product,index) in products">
+                {{product.name}} -- {{product.value}}
+                <a href="#"  @@click="editProduct(product.id,index)">Edit</a>
+                <a href="#" @@click="deleteProduct(product.id,index)">Remove</a>
             </p>
         </div>
         
         <div>
-            <input  v-model="productModel.name" />
-            <input  v-model="productModel.description" />
+            <input v-model="productModel.name" />
+            <input v-model="productModel.description" />
             <input type="number" v-model.number="productModel.value" />
-            <button v-on:click="createProducts">Create Products</button>
+            <button v-on:click="createProducts" v-if="!productModel.id">Create Products</button>
+            <button v-on:click="updateProducts" v-else>Update Product</button>
         </div>
     </div>
 
