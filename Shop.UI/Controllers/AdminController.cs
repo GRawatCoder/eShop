@@ -37,7 +37,7 @@ namespace Shop.UI.Controllers
             return Ok(await new CreateProduct(_ctx).Do(productModelRequest));
         }
         [HttpPut("products")]
-        public async Task<ActionResult> UpdateProducts([FromBody] UpdateProduct.Request request)
+        public async Task<ActionResult> UpdateProducts([FromBody] UpdateProduct.ProductModelRequest request)
         {
             return Ok(await new UpdateProduct(_ctx).Do(request));
         }
