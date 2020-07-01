@@ -3,7 +3,8 @@
     data: {
         loading: false,
         products: [],
-        objectIndex:0,
+        objectIndex: 0,
+        editing:false,
         productModel: {
             id:0,
             name: "Product Name",
@@ -55,6 +56,7 @@
                     console.log(err);
                 }).then(() => {
                     this.loading = false;
+                    this.editing = false;
                 })
         },
         updateProducts: function () {
@@ -67,6 +69,7 @@
                     console.log(err);
                 }).then(() => {
                     this.loading = false;
+                    this.editing = false;
                 })
         },
         deleteProduct: function (id,index) {
@@ -81,9 +84,17 @@
                     this.loading = false;
                 });
         },
+        newProduct: function () {
+            this.editing = true;
+        },
         editProduct: function (id,index) {
             this.objectIndex = index;
             this.getProduct(id);
+            this.editing = true;
+            
+        },
+        cancel: function () {
+            this.editing = false;
         }
     },
     computed: {        
