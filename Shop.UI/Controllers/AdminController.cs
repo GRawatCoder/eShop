@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Application.ProductsAdmin;
+using Shop.Application.StockAdmin;
 using Shop.Database;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Shop.UI.Controllers
         {
             _ctx = ctx;
         }
+
+        #region products
         [HttpGet("products")]
         public ActionResult GetProducts()
         {
@@ -32,7 +35,7 @@ namespace Shop.UI.Controllers
             return Ok(await new DeleteProduct(_ctx).Do(Id));
         }
         [HttpPost("products")]
-        public async Task<ActionResult> PostProducts([FromBody] CreateProduct.ProductModelRequest productModelRequest)
+        public async Task<ActionResult> CreateProducts([FromBody] CreateProduct.ProductModelRequest productModelRequest)
         {
             return Ok(await new CreateProduct(_ctx).Do(productModelRequest));
         }
@@ -41,5 +44,31 @@ namespace Shop.UI.Controllers
         {
             return Ok(await new UpdateProduct(_ctx).Do(request));
         }
+        #endregion
+
+        #region stock
+        [HttpGet("stocks")]
+        public ActionResult GetStocks()
+        {
+            return Ok(new GetStock(_ctx).Do());
+        }
+        [HttpPost("stocks")]
+        public async Task<ActionResult> CreateStock([FromBody] CreateStock.StockModelRequest request)
+        {
+            return Ok(await new CreateStock(_ctx).Do(request));
+        }
+        [HttpDelete("stocks/{Id}")]
+        public async Task<ActionResult> DeleteStock(int Id)
+        {
+            return Ok(await new DeleteStock(_ctx).Do(Id));
+        }        
+        [HttpPut("stocks")]
+        public async Task<ActionResult> UpdateStock([FromBody] UpdateStock.StockModelRequest request)
+        {
+            return Ok(await new UpdateStock(_ctx).Do(request));
+        }
+        #endregion
+
+
     }
 }
