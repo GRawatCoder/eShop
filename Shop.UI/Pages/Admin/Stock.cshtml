@@ -18,7 +18,7 @@
                 <tr v-for="(stock,index) in selectedProduct.stocks">
                     <td><input class="input" v-model="stock.description" /></td>
                     <td><input class="input" v-model.number="stock.qty" /></td>
-                    <td><a class="button is-danger is-rounded" v-on:click="deleteStock(stock.id,index)">Delete Stock</a></td>
+                    <td><a class="has-text-danger" v-on:click="deleteStock(stock.id,index)">Delete Stock</a></td>
                 </tr>                
             </table>
             <a class="button is-warning is-rounded" v-on:click="updateStock">Update Stock</a>
