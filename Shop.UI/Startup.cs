@@ -34,6 +34,11 @@ namespace Shop.UI
                 ));
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddSession(options => 
+            {
+                options.Cookie.Name = "Cart";
+                options.Cookie.MaxAge = TimeSpan.FromDays(365);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +57,7 @@ namespace Shop.UI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -62,6 +67,8 @@ namespace Shop.UI
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
+
+            
         }
     }
 }
