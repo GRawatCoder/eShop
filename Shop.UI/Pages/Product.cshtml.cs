@@ -5,24 +5,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Shop.Application.Cart;
 using Shop.Application.Products;
 using Shop.Database;
-using static Shop.Application.Products.GetProduct;
 
 namespace Shop.UI.Pages
 {
     public class ProductModel : PageModel
     {
         private ApplicationDbContext _ctx;
-        public ProductViewModel Product { get; set; }
+        public GetProduct.ProductViewModel Product { get; set; }
 
         [BindProperty]
-        public Test ProductTest { get; set; }
-
-        public class Test
-        {
-            public string Id { get; set; }
-        }
+        public AddToCart.Request CartViewModel { get; set; }
 
         public ProductModel(ApplicationDbContext ctx)
         {
@@ -36,10 +31,9 @@ namespace Shop.UI.Pages
             return Page();
         }
         public IActionResult OnPost()
-        {            
-            var currentId = HttpContext.Session.GetString("id");
-            HttpContext.Session.SetString("id", ProductTest.Id);
-            return RedirectToPage("Index");
+        {
+            new AddToCart(HttpContext.Session).Do(CartViewModel);
+            return RedirectToPage("Cart");
         }
     }
 }

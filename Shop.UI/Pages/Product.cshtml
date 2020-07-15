@@ -11,12 +11,14 @@
     <div>
         <form method="post">
             <label>Stocks</label>
-            <select asp-for="ProductTest.Id">
+            <select asp-for="CartViewModel.StockId">
                 @foreach (var stock in Model.Product.Stocks)
                 {
                     <option value="@stock.Id">@stock.Description</option>
                 }
             </select>
+            <label>Qty:</label>
+            <input asp-for="CartViewModel.Qty" />
             <button type="submit">Submit</button>
         </form>
         

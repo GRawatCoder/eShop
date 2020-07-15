@@ -34,10 +34,12 @@ namespace Shop.UI
                 ));
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddDistributedMemoryCache();
             services.AddSession(options => 
             {
                 options.Cookie.Name = "Cart";
                 options.Cookie.MaxAge = TimeSpan.FromDays(365);
+                options.Cookie.IsEssential = true;
             });
         }
 
@@ -57,11 +59,11 @@ namespace Shop.UI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
+            
             app.UseRouting();
-
+            
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
