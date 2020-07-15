@@ -33,13 +33,11 @@ namespace Shop.UI
                     Configuration.GetConnectionString("DefaultConnection")
                 ));
             services.AddControllersWithViews();
-            services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddDistributedMemoryCache();
+            services.AddRazorPages().AddRazorRuntimeCompilation();           
             services.AddSession(options => 
             {
                 options.Cookie.Name = "Cart";
-                options.Cookie.MaxAge = TimeSpan.FromDays(365);
-                options.Cookie.IsEssential = true;
+                options.Cookie.MaxAge = TimeSpan.FromDays(365);                
             });
         }
 
