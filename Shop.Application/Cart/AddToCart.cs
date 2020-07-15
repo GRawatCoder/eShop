@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 using Shop.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -18,12 +21,27 @@ namespace Shop.Application.Cart
 
         public void Do(Request request)
         {
-            var cartProduct = new CartProduct
+            var cartList = new List<CartProduct>();
+            var session = _session.GetString("Cart");
+            if (!string.IsNullOrEmpty(session))
             {
-                StockId = request.StockId,
-                Qty = request.Qty
-            };
-            var value=JsonConvert.SerializeObject(cartProduct);
+                cartList = JsonConvert.DeserializeObject<List<CartProduct>>(session);
+            }
+
+            if (cartList.Any(x=>x.StockId.Equals(request.StockId)))
+            {
+                cartList.Find(x => x.StockId.Equals(request.StockId)).Qty += request.Qty;
+            }
+            else
+            {
+                cartList.Add(new CartProduct
+                {
+                    StockId = request.StockId,
+                    Qty = request.Qty
+                });
+            }
+            
+            var value=JsonConvert.SerializeObject(cartList);
             _session.SetString("Cart", value);
         }
 
