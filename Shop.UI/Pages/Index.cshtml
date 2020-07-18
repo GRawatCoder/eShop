@@ -11,5 +11,7 @@
         <a asp-page="Product" asp-route-name="@p.Name">
             @p.Name - @p.Description - @p.Value
         </a>
+        <br/>
     }
 </div>
+@await Component.InvokeAsync("Cart") 
