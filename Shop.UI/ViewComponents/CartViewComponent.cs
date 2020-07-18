@@ -18,9 +18,9 @@ namespace Shop.UI.ViewComponents
                 
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string view = "Default")
         {
-            return View(new GetCart(HttpContext.Session,_ctx).Do());
+            return View(view, new GetCart(HttpContext.Session,_ctx).Do());
         }
     }
 }
