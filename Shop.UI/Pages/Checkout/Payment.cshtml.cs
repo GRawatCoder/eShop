@@ -35,7 +35,7 @@ namespace Shop.UI.Pages.Checkout
 
         public async Task<IActionResult> OnPost(string stripeEmail, string stripeToken)
         {
-            var cartOrder = new GetOrder(HttpContext.Session, _ctx).Do();
+            var cartOrder = new Application.Cart.GetOrder(HttpContext.Session, _ctx).Do();
 
             var customers = new CustomerService();
             var charges = new ChargeService();
@@ -84,7 +84,7 @@ namespace Shop.UI.Pages.Checkout
                     StockId = x.StockId,
                     Qty = x.Qty
                 }).ToList(),
-                StripRef = charge.OrderId
+                StripRef = charge.Id
             
             });
 
