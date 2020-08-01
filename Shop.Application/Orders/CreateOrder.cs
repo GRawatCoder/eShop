@@ -21,6 +21,14 @@ namespace Shop.Application.Orders
 
         public async Task<bool> Do(Request request)
         {
+            // Decrease the stock from the warehouse first
+            var stocksToUpdate = _ctx.Stock
+                .AsEnumerable()
+                .Where(x => request.Stocks.Any(y => y.StockId.Equals(x.Id))).ToList();
+            foreach(var stock in stocksToUpdate)
+            {
+                stock.Qty = stock.Qty - request.Stocks.FirstOrDefault(x => x.StockId.Equals(stock.Id)).Qty;
+            }            
             var order = new Order
             {
                 FirstName = request.FirstName,
