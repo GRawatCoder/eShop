@@ -15,7 +15,7 @@ namespace Shop.Domain.Models
         /// using icollection here because we only need add delete operations, nothing more than that        
         /// </summary>
         public ICollection<Stock> Stock { get; set; }
-        public ICollection<OrderProduct> OrderProducts { get; set; }
+        
 
     }
 }
