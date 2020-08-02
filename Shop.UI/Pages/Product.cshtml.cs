@@ -23,17 +23,25 @@ namespace Shop.UI.Pages
         {
             _ctx = ctx;
         }
-        public IActionResult OnGet(string name)
+        public async Task<IActionResult> OnGet(string name)
         {
-            Product = new GetProduct(_ctx).Do(name);
+            Product = await new GetProduct(_ctx).Do(name);
             if (Product == null)
                 return RedirectToPage("Index");
             return Page();
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            new AddToCart(HttpContext.Session).Do(CartViewModel);
-            return RedirectToPage("Cart");
+            var isStockAdded = await new AddToCart(HttpContext.Session, _ctx).Do(CartViewModel);
+            if(isStockAdded)
+            {
+                return RedirectToPage("Cart");
+            }
+            else
+            {
+                // warning
+                return Page();
+            }            
         }
     }
 }

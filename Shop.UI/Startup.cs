@@ -38,7 +38,7 @@ namespace Shop.UI
             services.AddSession(options => 
             {
                 options.Cookie.Name = "Cart";
-                options.Cookie.MaxAge = TimeSpan.FromDays(365);                
+                options.Cookie.MaxAge = TimeSpan.FromMinutes(20);                
             });
             // Set your secret key. Remember to switch to your live secret key in production!
             // See your keys here: https://dashboard.stripe.com/account/apikeys

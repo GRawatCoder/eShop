@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Shop.Application.Products
 {
@@ -14,8 +15,24 @@ namespace Shop.Application.Products
         {
             _context = context;
         }
-        public ProductViewModel Do(string name)
+        public async Task<ProductViewModel> Do(string name)
         {
+            var stockOnHold = _context.StockOnHolds.Where(x => x.ExpiryDate < DateTime.Now).ToList();
+
+            if (stockOnHold.Count > 0)
+            {
+                var stockToReturn  = _context.Stock
+                    .Where(x => _context.StockOnHolds.Any(y => y.StockId.Equals(x.Id)))
+                    .ToList();
+                foreach(var stock in stockToReturn)
+                {
+                    stock.Qty += stockOnHold.FirstOrDefault(x => x.Id.Equals(stock.Id)).Qty;
+                }
+                _context.StockOnHolds.RemoveRange(stockOnHold);
+                await _context.SaveChangesAsync();
+            }
+
+
             //$"£ {x.Value:N2}"
             return _context.Products
                 .Include(x=>x.Stock)
